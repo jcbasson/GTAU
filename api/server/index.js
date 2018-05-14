@@ -1,5 +1,7 @@
-const path = require('path');
+const express = require('express');
+const cors = require('cors');
 
+const nodeModules = { express, cors};
 const products = require('./repository/products');
 const { ProductRepository } = require('./repository/productRepository');
 const { ProductsService } = require('./services/productService');
@@ -14,5 +16,5 @@ const productsService = new ProductsService(productRepository, ProductError);
 const productController = new ProductController(productsService);
 
 
-const server = new GTAUApp(getDelay, productController, ProductError);
+const server = new GTAUApp(nodeModules, getDelay, productController, ProductError);
 server.init(8765);

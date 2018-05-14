@@ -1,11 +1,6 @@
-const url = require('url');
-const http = require('http');
-const express = require('express');
-const cors = require('cors');
-const bodyParser = require('body-parser');
-
 class GTAUApp {
-  constructor(getDelay, productController, productError) {
+  constructor(nodeModules, getDelay, productController, productError) {
+    this.nodeModules = nodeModules;
     this.getDelay = getDelay;
     this.productController = productController;
     this.server = null;
@@ -13,11 +8,13 @@ class GTAUApp {
   }
 
   init(port) {
+
+    const { express, cors } = this.nodeModules;
+
     const app = express();
 
     // Product endpoints
     app.use(cors());
-    app.use(bodyParser.urlencoded({extended: true}));
 
     app.get('/product', (req, res) => this.serve(res, this.productController.findByKey(req.query)));
 
