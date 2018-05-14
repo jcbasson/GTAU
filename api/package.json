@@ -1,0 +1,16 @@
+{
+  "author": "Jan-Christiaan Basson",
+  "name": "GTAU_API",
+  "version": "0.0.1",
+  "scripts": {
+    "start:api": "node ./server/index.js"
+  },
+  "devDependencies": {
+    "path": "^0.12.7"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "cors": "^2.8.4",
+    "express": "^4.16.3"
+  }
+}
