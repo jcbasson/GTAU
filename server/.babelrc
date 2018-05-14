@@ -1,0 +1,13 @@
+{
+    "presets": [
+      "react",
+      "env",
+      "stage-2"
+    ],
+    "plugins": [
+      "transform-object-rest-spread",
+      "syntax-async-functions",
+      "transform-regenerator",
+      "transform-class-properties"
+    ]
+  }
