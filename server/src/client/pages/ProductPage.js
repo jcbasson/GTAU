@@ -6,9 +6,8 @@ class ProductPage extends Component {
     static needs = [fetchProduct]
     
     componentDidMount() {
-        console.log("componentDidMount() = ",params);
         const {fetchProduct,  match: { params } } = this.props;
-        console.log("params = ",params);
+        
         fetchProduct(params.productKey);
     }
 

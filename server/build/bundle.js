@@ -79,10 +79,16 @@ module.exports = require("react-router-config");
 /* 2 */
 /***/ (function(module, exports) {
 
-module.exports = require("react-redux");
+module.exports = require("react-router-dom");
 
 /***/ }),
 /* 3 */
+/***/ (function(module, exports) {
+
+module.exports = require("react-redux");
+
+/***/ }),
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -104,21 +110,25 @@ var _ProductPage = __webpack_require__(12);
 
 var _ProductPage2 = _interopRequireDefault(_ProductPage);
 
+var _NotFoundPage = __webpack_require__(13);
+
+var _NotFoundPage2 = _interopRequireDefault(_NotFoundPage);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = [{
     component: _App2.default,
     routes: [{
-        path: "/product",
+        key: "product",
+        numberOfParamsInUrl: 1,
+        path: "/product/:productKey",
         component: _ProductPage2.default
+    }, {
+        path: "*",
+        component: _NotFoundPage2.default,
+        exact: true
     }]
 }];
-
-/***/ }),
-/* 4 */
-/***/ (function(module, exports) {
-
-module.exports = require("react-router-dom");
 
 /***/ }),
 /* 5 */
@@ -142,13 +152,17 @@ var fetchProduct = exports.fetchProduct = function fetchProduct(productKey) {
                 while (1) {
                     switch (_context.prev = _context.next) {
                         case 0:
-                            _context.next = 2;
-                            return api.get("/product?productKey=ipad-mini");
+                            if (!productKey) {
+                                _context.next = 5;
+                                break;
+                            }
 
-                        case 2:
+                            _context.next = 3;
+                            return api.get("/product?productKey=" + productKey);
+
+                        case 3:
                             res = _context.sent;
 
-                            console.log('productKey = ', productKey);
                             dispatch({
                                 type: FETCH_PRODUCT,
                                 payload: res
@@ -187,19 +201,19 @@ var _express = __webpack_require__(9);
 
 var _express2 = _interopRequireDefault(_express);
 
-var _Routes = __webpack_require__(3);
+var _Routes = __webpack_require__(4);
 
 var _Routes2 = _interopRequireDefault(_Routes);
 
-var _expressHttpProxy = __webpack_require__(13);
+var _expressHttpProxy = __webpack_require__(14);
 
 var _expressHttpProxy2 = _interopRequireDefault(_expressHttpProxy);
 
-var _renderer = __webpack_require__(14);
+var _renderer = __webpack_require__(15);
 
 var _renderer2 = _interopRequireDefault(_renderer);
 
-var _storeHelpers = __webpack_require__(17);
+var _storeHelpers = __webpack_require__(18);
 
 var _storeHelpers2 = _interopRequireDefault(_storeHelpers);
 
@@ -292,9 +306,9 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRouterDom = __webpack_require__(4);
+var _reactRouterDom = __webpack_require__(2);
 
-var _reactRedux = __webpack_require__(2);
+var _reactRedux = __webpack_require__(3);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -334,7 +348,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(2);
+var _reactRedux = __webpack_require__(3);
 
 var _actions = __webpack_require__(5);
 
@@ -358,12 +372,11 @@ var ProductPage = function (_Component) {
     _createClass(ProductPage, [{
         key: "componentDidMount",
         value: function componentDidMount() {
-            console.log("componentDidMount() = ", params);
             var _props = this.props,
                 fetchProduct = _props.fetchProduct,
                 params = _props.match.params;
 
-            console.log("params = ", params);
+
             fetchProduct(params.productKey);
         }
     }, {
@@ -395,12 +408,52 @@ exports.default = (0, _reactRedux.connect)(mapStateToProps, { fetchProduct: _act
 
 /***/ }),
 /* 13 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRouterDom = __webpack_require__(2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var NotFoundPage = function NotFoundPage() {
+  return _react2.default.createElement(_reactRouterDom.Route, { render: function render(_ref) {
+      var staticContext = _ref.staticContext;
+
+      if (staticContext) {
+        staticContext.status = 404;
+      }
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(
+          'h1',
+          null,
+          '404 : Not Found'
+        )
+      );
+    } });
+};
+
+exports.default = NotFoundPage;
+
+/***/ }),
+/* 14 */
 /***/ (function(module, exports) {
 
 module.exports = require("express-http-proxy");
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -414,19 +467,19 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _server = __webpack_require__(15);
+var _server = __webpack_require__(16);
 
-var _reactRouterDom = __webpack_require__(4);
+var _reactRouterDom = __webpack_require__(2);
 
-var _reactRedux = __webpack_require__(2);
+var _reactRedux = __webpack_require__(3);
 
 var _reactRouterConfig = __webpack_require__(1);
 
-var _serializeJavascript = __webpack_require__(16);
+var _serializeJavascript = __webpack_require__(17);
 
 var _serializeJavascript2 = _interopRequireDefault(_serializeJavascript);
 
-var _Routes = __webpack_require__(3);
+var _Routes = __webpack_require__(4);
 
 var _Routes2 = _interopRequireDefault(_Routes);
 
@@ -446,23 +499,23 @@ exports.default = function (req, store) {
             )
         )
     ));
-    return '\n        <!DOCTYPE html>\n            <head>\n                <title>GTAU Product </title>\n                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css" />    \n            </head>\n            <body>\n                <div id="root">' + content + '</div>\n                <script>\n                    window.INITIAL_STATE = ' + (0, _serializeJavascript2.default)(store.getState()) + '\n                </script>\n                <script src="bundle.js"></script>\n            </body>\n        </html>\n    ';
+    return '\n        <!DOCTYPE html>\n            <head>\n                <title>GTAU Product </title>\n                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css" />    \n            </head>\n            <body>\n                <div id="root">' + content + '</div>\n                <script>\n                    window.INITIAL_STATE = ' + (0, _serializeJavascript2.default)(store.getState()) + '\n                </script>\n                <script src="/bundle.js"></script>\n            </body>\n        </html>\n    ';
 };
-
-/***/ }),
-/* 15 */
-/***/ (function(module, exports) {
-
-module.exports = require("react-dom/server");
 
 /***/ }),
 /* 16 */
 /***/ (function(module, exports) {
 
-module.exports = require("serialize-javascript");
+module.exports = require("react-dom/server");
 
 /***/ }),
 /* 17 */
+/***/ (function(module, exports) {
+
+module.exports = require("serialize-javascript");
+
+/***/ }),
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -473,19 +526,21 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.loadStore = undefined;
 
-var _axios = __webpack_require__(18);
+var _axios = __webpack_require__(19);
 
 var _axios2 = _interopRequireDefault(_axios);
 
 var _redux = __webpack_require__(6);
 
-var _reduxThunk = __webpack_require__(19);
+var _reduxThunk = __webpack_require__(20);
 
 var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 
 var _reactRouterConfig = __webpack_require__(1);
 
-var _reducers = __webpack_require__(20);
+var _urlHelpers = __webpack_require__(24);
+
+var _reducers = __webpack_require__(22);
 
 var _reducers2 = _interopRequireDefault(_reducers);
 
@@ -514,7 +569,7 @@ var loadStore = exports.loadStore = function loadStore(routes, httpContext, stor
         var route = _ref.route;
 
 
-        var latestdispatchPromise = dispatchNeeds(route.component.needs, store);
+        var latestdispatchPromise = loadComponentData(route, req.url, store);
 
         return [].concat(_toConsumableArray(dispatchPromises), _toConsumableArray(latestdispatchPromise));
     }, []);
@@ -522,26 +577,34 @@ var loadStore = exports.loadStore = function loadStore(routes, httpContext, stor
     return Promise.all(promises);
 };
 
-var dispatchNeeds = function dispatchNeeds(needs, store) {
-    return needs ? needs.map(function (need) {
-        return store.dispatch(need());
-    }) : [];
+var loadComponentData = function loadComponentData(route, requestUrl, store) {
+    var component = route.component;
+
+
+    if (component && component.needs && component.needs.length > 0) {
+        var params = route.numberOfParamsInUrl && route.numberOfParamsInUrl > 0 ? (0, _urlHelpers.extractUrlParamsBasedOnRoute)(requestUrl, route) : undefined;
+        return component.needs.map(function (need) {
+            return store.dispatch(need(params));
+        });
+    }
+    return [];
 };
-
-/***/ }),
-/* 18 */
-/***/ (function(module, exports) {
-
-module.exports = require("axios");
 
 /***/ }),
 /* 19 */
 /***/ (function(module, exports) {
 
-module.exports = require("redux-thunk");
+module.exports = require("axios");
 
 /***/ }),
 /* 20 */
+/***/ (function(module, exports) {
+
+module.exports = require("redux-thunk");
+
+/***/ }),
+/* 21 */,
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -553,7 +616,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _redux = __webpack_require__(6);
 
-var _productReducer = __webpack_require__(21);
+var _productReducer = __webpack_require__(23);
 
 var _productReducer2 = _interopRequireDefault(_productReducer);
 
@@ -564,7 +627,7 @@ exports.default = (0, _redux.combineReducers)({
 });
 
 /***/ }),
-/* 21 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -586,6 +649,32 @@ exports.default = function () {
         default:
             return state;
     }
+};
+
+/***/ }),
+/* 24 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var extractUrlParamsBasedOnRoute = exports.extractUrlParamsBasedOnRoute = function extractUrlParamsBasedOnRoute(requestUrl, route) {
+
+    //TODO: Refactor this to cater for multiple parameters allowed in the url
+    var key = route.key,
+        numberOfParamsInUrl = route.numberOfParamsInUrl;
+
+
+    var indexOfFirstParameterInUrl = requestUrl.indexOf(key) + (key + "/").length;
+
+    var firstParameterInUrlWithRestOfUrlString = requestUrl.substring(indexOfFirstParameterInUrl);
+
+    var firstParameterInUrl = firstParameterInUrlWithRestOfUrlString.includes("/") ? firstParameterInUrlWithRestOfUrlString.substring(0, firstParameterInUrlWithRestOfUrlString.indexOf("/")) : firstParameterInUrlWithRestOfUrlString;
+
+    return firstParameterInUrl;
 };
 
 /***/ })
