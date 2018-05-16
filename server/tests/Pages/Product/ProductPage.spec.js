@@ -91,6 +91,7 @@ describe("Pages::Product::ProductPage", () => {
             baseState,
             propsExpectedFromState,
             setSelectedContentByIndexSpy,
+            fetchProductSpy,
             wrapperInstance: () => wrapper.instance(),
             navigationBanner: () => wrapper.find("NavigationBanner"),
             productContent: () => wrapper.find("ProductContent"),
@@ -113,6 +114,16 @@ describe("Pages::Product::ProductPage", () => {
         it("should render the product content shuffler", () => {
             const { productContentShuffler } = setup();
             expect(productContentShuffler().exists()).to.equal(true);
+        });
+    });
+
+    describe("lifecyle:", () => {
+        describe("componentDidMount:", () => {
+            it("should call the action to fetch the product with the provided product key", () => {
+                const { wrapperInstance, fetchProductSpy } = setup();
+                wrapperInstance().componentDidMount();
+                expect(fetchProductSpy.firstCall.args).to.deep.equal(["ipad-mini"]);
+            });
         });
     });
 
