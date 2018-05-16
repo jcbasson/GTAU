@@ -15,6 +15,7 @@ describe("Pages::Product::ProductPage", () => {
     const setup = (propOverrides = {}) => {
 
         const setSelectedContentByIndexSpy = sinon.spy();
+        const fetchProductSpy = sinon.spy();
 
         const baseState = {
             product: {
@@ -71,8 +72,14 @@ describe("Pages::Product::ProductPage", () => {
         };
 
         const props = {
+            match: { 
+                params : {
+                    productKey: "ipad-mini"
+                }
+            },
             actions: {
-            setSelectedContentByIndex: setSelectedContentByIndexSpy
+                setSelectedContentByIndex: setSelectedContentByIndexSpy,
+                fetchProduct: fetchProductSpy
             },
             ...propsExpectedFromState,
             ...propOverrides
@@ -93,6 +100,20 @@ describe("Pages::Product::ProductPage", () => {
 
     describe("renders:", () => {
        
+        it("should render the navigation banner", () => {
+            const { navigationBanner } = setup();
+            expect(navigationBanner().exists()).to.equal(true);
+        });
+
+        it("should render the product content", () => {
+            const { productContent } = setup();
+            expect(productContent().exists()).to.equal(true);
+        });
+
+        it("should render the product content shuffler", () => {
+            const { productContentShuffler } = setup();
+            expect(productContentShuffler().exists()).to.equal(true);
+        });
     });
 
     describe("actions:", () => {
@@ -100,13 +121,13 @@ describe("Pages::Product::ProductPage", () => {
             it("should call the set selected content by index method with the next index when the type of shuffle is 'next'", () => {
                 const { wrapperInstance, setSelectedContentByIndexSpy } = setup();
                 wrapperInstance().handleShuffleContent(shuffleTypes.next);
-                expect(setSelectedContentByIndexSpy.firstCall.args).to.deep.equal(1);
+                expect(setSelectedContentByIndexSpy.firstCall.args).to.deep.equal([1]);
             });
 
             it("should call the set selected content by index method with the previous index when the type of shuffle is 'previous'", () => {
                 const { wrapperInstance, setSelectedContentByIndexSpy } = setup({selectedContentIndex: 3});
                 wrapperInstance().handleShuffleContent(shuffleTypes.previous);
-                expect(setSelectedContentByIndexSpy.firstCall.args).to.deep.equal(2);
+                expect(setSelectedContentByIndexSpy.firstCall.args).to.deep.equal([2]);
             });
         });
     });
@@ -114,6 +135,6 @@ describe("Pages::Product::ProductPage", () => {
     describe("redux:", () => {
         const { baseState, propsExpectedFromState } = setup();
         shouldMapStateToProps(propsExpectedFromState)(mapStateToProps, baseState);
-        shouldMapDispatchToProps(["fetchProduct"])(mapDispatchToProps);
+        shouldMapDispatchToProps(["setSelectedContentByIndex", "fetchProduct"])(mapDispatchToProps);
     });
 });

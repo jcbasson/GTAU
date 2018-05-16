@@ -38027,10 +38027,14 @@ var ProductPage = exports.ProductPage = function (_Component) {
         }
 
         return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = ProductPage.__proto__ || Object.getPrototypeOf(ProductPage)).call.apply(_ref, [this].concat(args))), _this), _this.handleShuffleContent = function (type) {
-            var setSelectedContentByIndex = _this.props.actions.setSelectedContentByIndex;
+            var _this$props = _this.props,
+                setSelectedContentByIndex = _this$props.actions.setSelectedContentByIndex,
+                selectedContentIndex = _this$props.selectedContentIndex;
 
 
-            setSelectedContentByIndex(0);
+            var newSelectedContentIndex = type === _ProductContentShuffler.shuffleTypes.next ? selectedContentIndex + 1 : selectedContentIndex - 1;
+
+            setSelectedContentByIndex(newSelectedContentIndex);
         }, _temp), _possibleConstructorReturn(_this, _ret);
     }
 
@@ -38038,7 +38042,7 @@ var ProductPage = exports.ProductPage = function (_Component) {
         key: "componentDidMount",
         value: function componentDidMount() {
             var _props = this.props,
-                fetchProduct = _props.fetchProduct,
+                fetchProduct = _props.actions.fetchProduct,
                 params = _props.match.params;
 
 
@@ -38078,7 +38082,8 @@ var mapStateToProps = exports.mapStateToProps = function mapStateToProps(state) 
 var mapDispatchToProps = exports.mapDispatchToProps = function mapDispatchToProps(dispatch) {
     return {
         actions: (0, _redux.bindActionCreators)({
-            setSelectedContentByIndex: setSelectedContentByIndexAction
+            setSelectedContentByIndex: _index.setSelectedContentByIndex,
+            fetchProduct: _index.fetchProduct
         }, dispatch)
     };
 };

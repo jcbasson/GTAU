@@ -1,25 +1,28 @@
 import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { fetchProduct } from "./Actions/index";
+import { fetchProduct as fetchProductAction, setSelectedContentByIndex as setSelectedContentByIndexAction } from "./Actions/index";
 
 import NavigationBanner from "./Components/NavigationBanner";
 import ProductContent from "./Components/ProductContent";
-import ProductContentShuffler from "./Components/ProductContentShuffler";
+import ProductContentShuffler, { shuffleTypes } from "./Components/ProductContentShuffler";
 
 export class ProductPage extends Component {
-        static needs = [fetchProduct]
+        static needs = [fetchProductAction]
         
         handleShuffleContent = (type) => {
             const {
             actions: { setSelectedContentByIndex },
+            selectedContentIndex
             } = this.props;
-
-            setSelectedContentByIndex(0);
+           
+            const newSelectedContentIndex = type === shuffleTypes.next? selectedContentIndex + 1: selectedContentIndex - 1;
+            
+            setSelectedContentByIndex(newSelectedContentIndex);
         }
 
         componentDidMount() {
-            const {fetchProduct, match: { params } } = this.props;
+            const {actions: {fetchProduct}, match: { params } } = this.props;
             
             fetchProduct(params.productKey);
         }
@@ -49,7 +52,8 @@ export const mapStateToProps = (state) => {
 export const mapDispatchToProps = dispatch => {
     return {
         actions: bindActionCreators({
-            setSelectedContentByIndex: setSelectedContentByIndexAction
+            setSelectedContentByIndex: setSelectedContentByIndexAction,
+            fetchProduct: fetchProductAction
         }, dispatch)
     };
 };
