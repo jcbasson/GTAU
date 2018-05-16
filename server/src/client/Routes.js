@@ -1,8 +1,8 @@
 import React from "react";
 
 import App from "./App"
-import ProductPage from "./pages/ProductPage";
-import NotFoundPage from "./pages/NotFoundPage";
+import ProductPage from "./Pages/Product/ProductPage";
+import NotFoundPage from "./Pages/NotFoundPage";
 
 export default [
     {

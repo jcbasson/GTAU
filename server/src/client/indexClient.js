@@ -10,7 +10,7 @@ import { Provider } from "react-redux";
 import { renderRoutes }  from 'react-router-config';
 
 import Routes from "./Routes";
-import reducers from "./reducers";
+import reducers from "./Reducers";
 
 const axiosInstance = axios.create({
     baseURL: '/api'

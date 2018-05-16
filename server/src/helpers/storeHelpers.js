@@ -4,7 +4,7 @@ import thunk from "redux-thunk";
 import { matchRoutes } from "react-router-config";
 
 import { extractUrlParamsBasedOnRoute } from "./urlHelpers";
-import reducers from "../client/reducers";
+import reducers from "../client/Reducers";
 
 export default (req) => {
 

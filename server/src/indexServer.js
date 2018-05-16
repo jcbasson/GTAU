@@ -27,7 +27,9 @@ app.get("*", (req, res) => {
    loadStore(Routes,{req, res}, store).then(() => {
 
         res.send(renderer(req, store));
-   });
+   }).catch(function(err) {
+    res.status(500).send("Sorry our site is temporarily down...");
+  });
 });
 
 app.listen(3000, () => {
