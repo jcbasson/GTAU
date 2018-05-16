@@ -38015,27 +38015,41 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var ProductPage = exports.ProductPage = function (_Component) {
     _inherits(ProductPage, _Component);
 
-    function ProductPage() {
-        var _ref;
-
-        var _temp, _this, _ret;
-
+    function ProductPage(props) {
         _classCallCheck(this, ProductPage);
 
-        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-            args[_key] = arguments[_key];
-        }
+        var _this = _possibleConstructorReturn(this, (ProductPage.__proto__ || Object.getPrototypeOf(ProductPage)).call(this, props));
 
-        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = ProductPage.__proto__ || Object.getPrototypeOf(ProductPage)).call.apply(_ref, [this].concat(args))), _this), _this.handleShuffleContent = function (type) {
+        _this.handleShuffleContent = function (type) {
             var _this$props = _this.props,
                 setSelectedContentByIndex = _this$props.actions.setSelectedContentByIndex,
+                content = _this$props.product.content,
                 selectedContentIndex = _this$props.selectedContentIndex;
 
 
-            var newSelectedContentIndex = type === _ProductContentShuffler.shuffleTypes.next ? selectedContentIndex + 1 : selectedContentIndex - 1;
+            var newSelectedContentIndex = 0;
+            if (type === _ProductContentShuffler.shuffleTypes.next) {
+                newSelectedContentIndex = selectedContentIndex >= content.length - 1 ? selectedContentIndex : selectedContentIndex + 1;
+            } else {
+                newSelectedContentIndex = selectedContentIndex <= 0 ? selectedContentIndex : selectedContentIndex - 1;
+            }
 
             setSelectedContentByIndex(newSelectedContentIndex);
-        }, _temp), _possibleConstructorReturn(_this, _ret);
+        };
+
+        _this.handleToggleShowProductContent = function () {
+            var isProductContentVisible = _this.state.isProductContentVisible;
+
+
+            _this.setState({
+                isProductContentVisible: !isProductContentVisible
+            });
+        };
+
+        _this.state = {
+            isProductContentVisible: true
+        };
+        return _this;
     }
 
     _createClass(ProductPage, [{
@@ -38051,15 +38065,26 @@ var ProductPage = exports.ProductPage = function (_Component) {
     }, {
         key: "render",
         value: function render() {
-            var product = this.props.product;
+            var _props2 = this.props,
+                _props2$product = _props2.product,
+                productTitle = _props2$product.title,
+                content = _props2$product.content,
+                selectedContentIndex = _props2.selectedContentIndex;
+            var isProductContentVisible = this.state.isProductContentVisible;
+            var _content$selectedCont = content[selectedContentIndex],
+                thumbnail = _content$selectedCont.thumbnail,
+                description = _content$selectedCont.description;
 
+            var isNotFirstContentDisplayed = selectedContentIndex !== 0;
+            var isNotLastContentDisplayed = selectedContentIndex === content.length - 1;
+            var nextContentTitle = isNotLastContentDisplayed ? content[selectedContentIndex + 1] : "";
 
             return _react2.default.createElement(
                 "div",
                 null,
-                _react2.default.createElement(_NavigationBanner2.default, null),
-                _react2.default.createElement(_ProductContent2.default, null),
-                _react2.default.createElement(_ProductContentShuffler2.default, null)
+                _react2.default.createElement(_NavigationBanner2.default, { productTitle: productTitle, isProductContentVisible: isProductContentVisible, handleToggleShowProductContent: this.handleToggleShowProductContent }),
+                _react2.default.createElement(_ProductContent2.default, { thumbnail: thumbnail, description: description }),
+                _react2.default.createElement(_ProductContentShuffler2.default, { nextContentTitle: nextContentTitle, handleShuffleContent: this.handleShuffleContent })
             );
         }
     }]);

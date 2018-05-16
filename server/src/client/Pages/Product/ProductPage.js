@@ -9,16 +9,43 @@ import ProductContentShuffler, { shuffleTypes } from "./Components/ProductConten
 
 export class ProductPage extends Component {
         static needs = [fetchProductAction]
+
+        constructor(props) {
+            super(props);
+
+            this.state = {
+                isProductContentVisible: true
+            };
+        }
         
         handleShuffleContent = (type) => {
             const {
             actions: { setSelectedContentByIndex },
+            product: {
+                content
+            },
             selectedContentIndex
             } = this.props;
            
-            const newSelectedContentIndex = type === shuffleTypes.next? selectedContentIndex + 1: selectedContentIndex - 1;
+            let newSelectedContentIndex = 0;
+            if(type === shuffleTypes.next)
+            {
+                newSelectedContentIndex = selectedContentIndex >= (content.length - 1)? selectedContentIndex: selectedContentIndex + 1
+
+            }
+            else{
+                newSelectedContentIndex = selectedContentIndex <= 0? selectedContentIndex: selectedContentIndex - 1
+            }
             
             setSelectedContentByIndex(newSelectedContentIndex);
+        }
+
+        handleToggleShowProductContent = () => {
+            const { isProductContentVisible } = this.state;
+
+            this.setState({
+                isProductContentVisible: !isProductContentVisible
+              });
         }
 
         componentDidMount() {
@@ -28,13 +55,25 @@ export class ProductPage extends Component {
         }
 
         render() {
-            const {product} = this.props;
-            
+            const {
+            product: {
+                title: productTitle ,
+                content
+            },
+            selectedContentIndex
+            } = this.props;
+
+            const {isProductContentVisible} = this.state;
+            const {thumbnail, description} = content[selectedContentIndex];
+            const isNotFirstContentDisplayed = selectedContentIndex !== 0;
+            const isNotLastContentDisplayed = selectedContentIndex === content.length - 1;
+            const nextContentTitle= isNotLastContentDisplayed?   content[selectedContentIndex + 1]: "";
+          
             return (
             <div>
-                <NavigationBanner />
-                <ProductContent />
-                <ProductContentShuffler />
+                <NavigationBanner productTitle={productTitle} isProductContentVisible={isProductContentVisible} handleToggleShowProductContent={this.handleToggleShowProductContent}  />
+                <ProductContent thumbnail={thumbnail} description={description} />
+                <ProductContentShuffler nextContentTitle={nextContentTitle} handleShuffleContent={this.handleShuffleContent}/>
             </div>
             )
         }

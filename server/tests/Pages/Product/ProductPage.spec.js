@@ -92,6 +92,7 @@ describe("Pages::Product::ProductPage", () => {
             propsExpectedFromState,
             setSelectedContentByIndexSpy,
             fetchProductSpy,
+            wrapper,
             wrapperInstance: () => wrapper.instance(),
             navigationBanner: () => wrapper.find("NavigationBanner"),
             productContent: () => wrapper.find("ProductContent"),
@@ -140,6 +141,18 @@ describe("Pages::Product::ProductPage", () => {
                 wrapperInstance().handleShuffleContent(shuffleTypes.previous);
                 expect(setSelectedContentByIndexSpy.firstCall.args).to.deep.equal([2]);
             });
+        });
+
+        describe("handleToggleShowProductContent:", ()=> {
+            it("should toggle the product content visibility status", () => {
+                const { wrapperInstance, wrapper } = setup();
+                const productPageInstance = wrapperInstance()
+                productPageInstance.handleToggleShowProductContent();
+                wrapper.update();
+            
+                expect(productPageInstance.state.isProductContentVisible).to.equal(false);
+            });
+
         });
     });
 
