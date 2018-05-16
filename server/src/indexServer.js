@@ -28,6 +28,7 @@ app.get("*", (req, res) => {
 
         res.send(renderer(req, store));
    }).catch(function(err) {
+
     res.status(500).send("Sorry our site is temporarily down...");
   });
 });

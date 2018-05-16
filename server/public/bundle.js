@@ -8139,15 +8139,10 @@ var fetchProduct = exports.fetchProduct = function fetchProduct(productKey) {
                 while (1) {
                     switch (_context.prev = _context.next) {
                         case 0:
-                            if (!productKey) {
-                                _context.next = 5;
-                                break;
-                            }
-
-                            _context.next = 3;
+                            _context.next = 2;
                             return api.get("/product?productKey=" + productKey);
 
-                        case 3:
+                        case 2:
                             res = _context.sent;
 
                             dispatch({
@@ -8155,7 +8150,7 @@ var fetchProduct = exports.fetchProduct = function fetchProduct(productKey) {
                                 payload: res
                             });
 
-                        case 5:
+                        case 4:
                         case "end":
                             return _context.stop();
                     }
@@ -38094,8 +38089,9 @@ var ProductPage = exports.ProductPage = function (_Component) {
 
 ProductPage.needs = [_index.fetchProduct];
 var mapStateToProps = exports.mapStateToProps = function mapStateToProps(state) {
-    var product = state.product,
-        selectedContentIndex = state.selectedContentIndex;
+    var _state$productStore = state.productStore,
+        product = _state$productStore.product,
+        selectedContentIndex = _state$productStore.selectedContentIndex;
 
 
     return {
@@ -38425,7 +38421,7 @@ var _productReducer2 = _interopRequireDefault(_productReducer);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = (0, _redux.combineReducers)({
-  product: _productReducer2.default
+  productStore: _productReducer2.default
 });
 
 /***/ }),

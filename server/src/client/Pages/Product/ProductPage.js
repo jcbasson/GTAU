@@ -80,8 +80,8 @@ export class ProductPage extends Component {
 }
 
 export const mapStateToProps = (state) => {
-    const { product, selectedContentIndex } = state;
-
+    const { product, selectedContentIndex } = state.productStore;
+   
     return { 
         product,
         selectedContentIndex
