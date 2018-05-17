@@ -10,6 +10,7 @@ export default (state=[], action) => {
                 };
             case SET_SELECTED_PRODUCT_CONTENT:
                 const {selectedContentIndex} = action;
+
                 return {
                 ...state,
                 selectedContentIndex

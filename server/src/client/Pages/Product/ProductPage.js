@@ -50,7 +50,7 @@ export class ProductPage extends Component {
 
         componentDidMount() {
             const {actions: {fetchProduct}, match: { params } } = this.props;
-            
+         
             fetchProduct(params.productKey);
         }
 
@@ -66,14 +66,18 @@ export class ProductPage extends Component {
             const {isProductContentVisible} = this.state;
             const {thumbnail, description} = content[selectedContentIndex];
             const isNotFirstContentDisplayed = selectedContentIndex !== 0;
-            const isNotLastContentDisplayed = selectedContentIndex === content.length - 1;
+            const isNotLastContentDisplayed = selectedContentIndex !== (content.length - 1);
             const nextContentTitle= isNotLastContentDisplayed?   content[selectedContentIndex + 1]: "";
           
             return (
             <div>
                 <NavigationBanner productTitle={productTitle} isProductContentVisible={isProductContentVisible} handleToggleShowProductContent={this.handleToggleShowProductContent}  />
                 <ProductContent thumbnail={thumbnail} description={description} />
-                <ProductContentShuffler nextContentTitle={nextContentTitle} handleShuffleContent={this.handleShuffleContent}/>
+                <ProductContentShuffler 
+                    isNotFirstContentDisplayed={isNotFirstContentDisplayed} 
+                    isNotLastContentDisplayed={isNotLastContentDisplayed}  
+                    nextContentTitle={nextContentTitle} 
+                    handleShuffleContent={this.handleShuffleContent}/>
             </div>
             )
         }
@@ -89,6 +93,7 @@ export const mapStateToProps = (state) => {
 }
 
 export const mapDispatchToProps = dispatch => {
+    
     return {
         actions: bindActionCreators({
             setSelectedContentByIndex: setSelectedContentByIndexAction,

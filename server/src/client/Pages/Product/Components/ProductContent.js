@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import classNames from "classnames";
 
-import styles from "./productContent.css";
 
 class ProductContent extends Component {
     render() {
@@ -9,10 +8,17 @@ class ProductContent extends Component {
             thumbnail,
             description
         } = this.props;
+
+        const descriptionMarkup={__html : description};
+
         return (
-            <div>
-                <img data-id="productThumbnail" alt="Product Thumbnail" className="responsive-img" src={thumbnail} />
-                <p data-id="productDescription" className="flow-text">{description}</p>
+            <div className="row">
+                <div className="col s12 m4 l4">
+                    <img data-id="productThumbnail" alt="Product Thumbnail" className="responsive-img" src={`/images/${thumbnail}`} />
+                </div>
+                <div className="col s12 m8 l8">
+                    <p data-id="productDescription" className="flow-text" dangerouslySetInnerHTML={descriptionMarkup} ></p>
+                </div>
             </div>
         );
     }

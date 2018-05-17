@@ -14,7 +14,7 @@ class ProductContentShuffler extends Component {
         } = this.props;
 
         return (
-            <div>
+            <div className="row">
                 {isNotFirstContentDisplayed &&
                 <a data-id="shuffleContentPreviousButton" onClick={() => handleShuffleContent(shuffleTypes.previous)} role="button" className="left">
                     <i className="material-icons">

@@ -20,6 +20,7 @@ app.use(
   );
 
 app.use(express.static('public'));
+app.use('/images', express.static('images'));
 app.get("*", (req, res) => {
 
    const store = createStore(req);
