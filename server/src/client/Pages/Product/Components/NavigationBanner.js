@@ -2,8 +2,8 @@ import React, { Component } from "react";
 
 import styles from "./navigationBanner.css";
 
-export const ICON_EXPAND = "expand_more";
-export const ICON_COLLAPSE = "expand_less";
+export const ICON_EXPAND = "expand";
+export const ICON_COLLAPSE = "collapse";
 
 class NavigationBanner extends Component {
     render() {

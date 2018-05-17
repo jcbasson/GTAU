@@ -20,11 +20,11 @@ export class ProductPage extends Component {
         
         handleShuffleContent = (type) => {
             const {
-            actions: { setSelectedContentByIndex },
-            product: {
-                content
-            },
-            selectedContentIndex
+                actions: { setSelectedContentByIndex },
+                product: {
+                    content
+                },
+                selectedContentIndex
             } = this.props;
            
             let newSelectedContentIndex = 0;
@@ -67,12 +67,12 @@ export class ProductPage extends Component {
             const {thumbnail, description} = content[selectedContentIndex];
             const isNotFirstContentDisplayed = selectedContentIndex !== 0;
             const isNotLastContentDisplayed = selectedContentIndex !== (content.length - 1);
-            const nextContentTitle= isNotLastContentDisplayed?   content[selectedContentIndex + 1]: "";
-          
+            const nextContentTitle= isNotLastContentDisplayed?   content[selectedContentIndex + 1].title: "";
+
             return (
             <div>
                 <NavigationBanner productTitle={productTitle} isProductContentVisible={isProductContentVisible} handleToggleShowProductContent={this.handleToggleShowProductContent}  />
-                <ProductContent thumbnail={thumbnail} description={description} />
+                {isProductContentVisible && <ProductContent thumbnail={thumbnail} description={description} />}
                 <ProductContentShuffler 
                     isNotFirstContentDisplayed={isNotFirstContentDisplayed} 
                     isNotLastContentDisplayed={isNotLastContentDisplayed}  

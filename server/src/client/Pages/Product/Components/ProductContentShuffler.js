@@ -16,18 +16,13 @@ class ProductContentShuffler extends Component {
         return (
             <div className="row">
                 {isNotFirstContentDisplayed &&
-                <a data-id="shuffleContentPreviousButton" onClick={() => handleShuffleContent(shuffleTypes.previous)} role="button" className="left">
-                    <i className="material-icons">
-                        navigate_before
-                    </i>
-                </a>}
+                    <button data-id="shuffleContentPreviousButton" onClick={() => handleShuffleContent(shuffleTypes.previous)} className="left">
+                        {shuffleTypes.previous}
+                    </button>}
                 {isNotLastContentDisplayed &&
-                <a data-id="shuffleContentNextButton" onClick={() => handleShuffleContent(shuffleTypes.next)} role="button" className="right">
-                    {nextContentTitle}
-                    <i className="material-icons">
-                        navigate_before
-                    </i>
-                </a>}
+                    <button data-id="shuffleContentNextButton" onClick={() => handleShuffleContent(shuffleTypes.next)} className="right">
+                        {nextContentTitle}
+                    </button>}
             </div>
         );
     }

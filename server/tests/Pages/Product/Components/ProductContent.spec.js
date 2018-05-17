@@ -25,12 +25,13 @@ describe("Pages::Product::Components::ProductContent", () => {
     describe("render:", () => {
         it("should render the product thumbnail", () => {
             const { productThumbnail, props: { thumbnail } } = setup();
-            expect(productThumbnail().prop("src")).to.equal(thumbnail);
+            expect(productThumbnail().prop("src")).to.equal(`/images/${thumbnail}`);
         });
 
-        it("should render the toggle product content button with an icon pointing upwards when product content is not visible ", () => {
+        it("should render the product description", () => {
             const { productDescription, props: { description } } = setup();
-            expect(productDescription().text()).to.equal(description);
+            console.log(productDescription());
+            expect(productDescription().html()).to.equal(`<p data-id="productDescription" class="flow-text">${description}</p>`);
         });
     });
 });

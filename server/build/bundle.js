@@ -179,12 +179,12 @@ var fetchProduct = exports.fetchProduct = function fetchProduct(productKey) {
 };
 
 var SET_SELECTED_PRODUCT_CONTENT = exports.SET_SELECTED_PRODUCT_CONTENT = "set_selected_product_content";
-var setSelectedContentByIndex = exports.setSelectedContentByIndex = function setSelectedContentByIndex(index) {
+var setSelectedContentByIndex = exports.setSelectedContentByIndex = function setSelectedContentByIndex(selectedContentIndex) {
     return function (dispatch) {
 
         dispatch({
             type: SET_SELECTED_PRODUCT_CONTENT,
-            index: index
+            selectedContentIndex: selectedContentIndex
         });
     };
 };
@@ -245,7 +245,7 @@ app.get("*", function (req, res) {
 
     res.send((0, _renderer2.default)(req, store));
   }).catch(function (err) {
-
+    console.log(err);
     res.status(500).send("Sorry our site is temporarily down...");
   });
 });
@@ -406,13 +406,13 @@ var ProductPage = exports.ProductPage = function (_Component) {
 
             var isNotFirstContentDisplayed = selectedContentIndex !== 0;
             var isNotLastContentDisplayed = selectedContentIndex !== content.length - 1;
-            var nextContentTitle = isNotLastContentDisplayed ? content[selectedContentIndex + 1] : "";
+            var nextContentTitle = isNotLastContentDisplayed ? content[selectedContentIndex + 1].title : "";
 
             return _react2.default.createElement(
                 "div",
                 null,
                 _react2.default.createElement(_NavigationBanner2.default, { productTitle: productTitle, isProductContentVisible: isProductContentVisible, handleToggleShowProductContent: this.handleToggleShowProductContent }),
-                _react2.default.createElement(_ProductContent2.default, { thumbnail: thumbnail, description: description }),
+                isProductContentVisible && _react2.default.createElement(_ProductContent2.default, { thumbnail: thumbnail, description: description }),
                 _react2.default.createElement(_ProductContentShuffler2.default, {
                     isNotFirstContentDisplayed: isNotFirstContentDisplayed,
                     isNotLastContentDisplayed: isNotLastContentDisplayed,
@@ -480,8 +480,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var ICON_EXPAND = exports.ICON_EXPAND = "expand_more";
-var ICON_COLLAPSE = exports.ICON_COLLAPSE = "expand_less";
+var ICON_EXPAND = exports.ICON_EXPAND = "expand";
+var ICON_COLLAPSE = exports.ICON_COLLAPSE = "collapse";
 
 var NavigationBanner = function (_Component) {
     _inherits(NavigationBanner, _Component);
@@ -670,27 +670,18 @@ var ProductContentShuffler = function (_Component) {
                 "div",
                 { className: "row" },
                 isNotFirstContentDisplayed && _react2.default.createElement(
-                    "a",
+                    "button",
                     { "data-id": "shuffleContentPreviousButton", onClick: function onClick() {
                             return handleShuffleContent(shuffleTypes.previous);
-                        }, role: "button", className: "left" },
-                    _react2.default.createElement(
-                        "i",
-                        { className: "material-icons" },
-                        "navigate_before"
-                    )
+                        }, className: "left" },
+                    shuffleTypes.previous
                 ),
                 isNotLastContentDisplayed && _react2.default.createElement(
-                    "a",
+                    "button",
                     { "data-id": "shuffleContentNextButton", onClick: function onClick() {
                             return handleShuffleContent(shuffleTypes.next);
-                        }, role: "button", className: "right" },
-                    nextContentTitle,
-                    _react2.default.createElement(
-                        "i",
-                        { className: "material-icons" },
-                        "navigate_before"
-                    )
+                        }, className: "right" },
+                    nextContentTitle
                 )
             );
         }
@@ -975,7 +966,7 @@ exports.default = function () {
         case _Actions.SET_SELECTED_PRODUCT_CONTENT:
             var selectedContentIndex = action.selectedContentIndex;
 
-
+            console.log("new state: ====", action);
             return _extends({}, state, {
                 selectedContentIndex: selectedContentIndex
             });
