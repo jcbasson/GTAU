@@ -5,12 +5,12 @@
 
 ```
 Step1: Run api
-    Open your choice of terminal in the api folder
+    Open your choice of terminal in the api folder located in the root of the project
     Run "npm install"
     Run "npm run start:api"
 
 Step2: Run web app server
-    Open your choice of terminal in the server folder
+    Open your choice of terminal in the server folder located in the root of the project
     Run "npm install"
     Run "npm run test"
     Run "npm run dev"
