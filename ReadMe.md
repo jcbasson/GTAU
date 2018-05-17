@@ -1,6 +1,5 @@
 # GTAU Test Notes
 
-```
 
 ## Getting Started
 
@@ -15,7 +14,8 @@ Step2: Run web app server
     Run "npm install"
     Run "npm run test"
     Run "npm run dev"
-"
+
+Step3: Open http://localhost:3000/product/ipad-mini in your choice of browser
     
 ```
 
