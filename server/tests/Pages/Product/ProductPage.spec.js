@@ -125,7 +125,7 @@ describe("Pages::Product::ProductPage", () => {
             it("should call the action to fetch the product with the provided product key", () => {
                 const { wrapperInstance, fetchProductSpy } = setup();
                 wrapperInstance().componentDidMount();
-                expect(fetchProductSpy.firstCall.args).to.deep.equal(["ipad-mini"]);
+                expect(fetchProductSpy.firstCall.args).to.deep.equal([{productKey:"ipad-mini"}]);
             });
         });
     });

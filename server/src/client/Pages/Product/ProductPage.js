@@ -49,9 +49,9 @@ export class ProductPage extends Component {
         }
 
         componentDidMount() {
-            const {actions: {fetchProduct}, match: { params } } = this.props;
+            const {actions: {fetchProduct}, match: { params: {productKey} } } = this.props;
          
-            fetchProduct(params.productKey);
+            fetchProduct({productKey});
         }
 
         render() {

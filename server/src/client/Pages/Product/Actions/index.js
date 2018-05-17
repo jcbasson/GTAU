@@ -1,5 +1,5 @@
 export const FETCH_PRODUCT = "fetch_product";
-export const fetchProduct = (productKey) => async (dispatch, getState, api) => {
+export const fetchProduct = ({productKey}) => async (dispatch, getState, api) => {
     
     const res = await api.get(`/product?productKey=${productKey}`);
 

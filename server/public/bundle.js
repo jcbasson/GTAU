@@ -8129,9 +8129,10 @@ Object.defineProperty(exports, "__esModule", {
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
 var FETCH_PRODUCT = exports.FETCH_PRODUCT = "fetch_product";
-var fetchProduct = exports.fetchProduct = function fetchProduct(productKey) {
+var fetchProduct = exports.fetchProduct = function fetchProduct(_ref) {
+    var productKey = _ref.productKey;
     return function () {
-        var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(dispatch, getState, api) {
+        var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(dispatch, getState, api) {
             var res;
             return regeneratorRuntime.wrap(function _callee$(_context) {
                 while (1) {
@@ -8158,7 +8159,7 @@ var fetchProduct = exports.fetchProduct = function fetchProduct(productKey) {
         }));
 
         return function (_x, _x2, _x3) {
-            return _ref.apply(this, arguments);
+            return _ref2.apply(this, arguments);
         };
     }();
 };
@@ -37995,10 +37996,10 @@ var ProductPage = exports.ProductPage = function (_Component) {
         value: function componentDidMount() {
             var _props = this.props,
                 fetchProduct = _props.actions.fetchProduct,
-                params = _props.match.params;
+                productKey = _props.match.params.productKey;
 
 
-            fetchProduct(params.productKey);
+            fetchProduct({ productKey: productKey });
         }
     }, {
         key: "render",
@@ -38077,10 +38078,6 @@ var _react = __webpack_require__(5);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _navigationBanner = __webpack_require__(474);
-
-var _navigationBanner2 = _interopRequireDefault(_navigationBanner);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -38113,7 +38110,7 @@ var NavigationBanner = function (_Component) {
             var toggleShowButtonIconDirection = isProductContentVisible ? ICON_COLLAPSE : ICON_EXPAND;
             return _react2.default.createElement(
                 "nav",
-                { className: _navigationBanner2.default.root },
+                { className: "nav-wrapper" },
                 _react2.default.createElement(
                     "h6",
                     null,
@@ -38144,12 +38141,7 @@ var NavigationBanner = function (_Component) {
 exports.default = NavigationBanner;
 
 /***/ }),
-/* 474 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
+/* 474 */,
 /* 475 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -38165,10 +38157,6 @@ var _createClass = function () { function defineProperties(target, props) { for 
 var _react = __webpack_require__(5);
 
 var _react2 = _interopRequireDefault(_react);
-
-var _classnames = __webpack_require__(476);
-
-var _classnames2 = _interopRequireDefault(_classnames);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -38220,61 +38208,7 @@ var ProductContent = function (_Component) {
 exports.default = ProductContent;
 
 /***/ }),
-/* 476 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
-  Copyright (c) 2016 Jed Watson.
-  Licensed under the MIT License (MIT), see
-  http://jedwatson.github.io/classnames
-*/
-/* global define */
-
-(function () {
-	'use strict';
-
-	var hasOwn = {}.hasOwnProperty;
-
-	function classNames () {
-		var classes = [];
-
-		for (var i = 0; i < arguments.length; i++) {
-			var arg = arguments[i];
-			if (!arg) continue;
-
-			var argType = typeof arg;
-
-			if (argType === 'string' || argType === 'number') {
-				classes.push(arg);
-			} else if (Array.isArray(arg)) {
-				classes.push(classNames.apply(null, arg));
-			} else if (argType === 'object') {
-				for (var key in arg) {
-					if (hasOwn.call(arg, key) && arg[key]) {
-						classes.push(key);
-					}
-				}
-			}
-		}
-
-		return classes.join(' ');
-	}
-
-	if (typeof module !== 'undefined' && module.exports) {
-		module.exports = classNames;
-	} else if (true) {
-		// register as 'classnames', consistent with npm package name
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = function () {
-			return classNames;
-		}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	} else {
-		window.classNames = classNames;
-	}
-}());
-
-
-/***/ }),
+/* 476 */,
 /* 477 */
 /***/ (function(module, exports, __webpack_require__) {
 

@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 
-import styles from "./navigationBanner.css";
-
 export const ICON_EXPAND = "expand";
 export const ICON_COLLAPSE = "collapse";
 
@@ -15,7 +13,7 @@ class NavigationBanner extends Component {
 
         const toggleShowButtonIconDirection = isProductContentVisible ? ICON_COLLAPSE : ICON_EXPAND;
         return (
-            <nav className={styles.root}>
+            <nav className="nav-wrapper">
                 <h6>
                     <a data-id="productTitle" href="/" className="brand-logo left">{productTitle}</a>
                 </h6>

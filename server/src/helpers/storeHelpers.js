@@ -3,7 +3,6 @@ import { createStore, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 import { matchRoutes } from "react-router-config";
 
-import { extractUrlParamsBasedOnRoute } from "./urlHelpers";
 import reducers from "../client/Reducers";
 
 export default (req) => {
@@ -18,30 +17,31 @@ export default (req) => {
     return store;
 }
 
+
+
 export const loadStore = (routes, httpContext, store) => {
 
     const {req, res} = httpContext;
 
-    const promises = matchRoutes(routes, req.path).reduce((dispatchPromises ,{route}) => {
+    const prefetchingRequests = matchRoutes(routes, req.path).reduce((dispatchPromises ,{route, match}) => {
     
-        const latestdispatchPromise =  loadComponentData(route, req.url, store);
+        const latestdispatchPromise =  loadComponentData(route, req.url, store, match.params? match.params: null);
         
         return [...dispatchPromises, ...latestdispatchPromise];
     }, []);
   
-    return Promise.all(promises);
+    return Promise.all(prefetchingRequests);
 }
 
 
 
-const loadComponentData = (route, requestUrl, store) => {
+const loadComponentData = (route, requestUrl, store, routeParams) => {
 
     const {component } = route;
 
     if(component && component.needs && component.needs.length > 0)
     {
-        const params = route.numberOfParamsInUrl &&  route.numberOfParamsInUrl > 0 ? extractUrlParamsBasedOnRoute(requestUrl, route): undefined;
-        return  component.needs.map(need => store.dispatch(need(params)))
+        return  component.needs.map(need => store.dispatch(need(routeParams)))
     }
     return [];
 }

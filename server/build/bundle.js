@@ -144,9 +144,10 @@ Object.defineProperty(exports, "__esModule", {
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
 var FETCH_PRODUCT = exports.FETCH_PRODUCT = "fetch_product";
-var fetchProduct = exports.fetchProduct = function fetchProduct(productKey) {
+var fetchProduct = exports.fetchProduct = function fetchProduct(_ref) {
+    var productKey = _ref.productKey;
     return function () {
-        var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(dispatch, getState, api) {
+        var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(dispatch, getState, api) {
             var res;
             return regeneratorRuntime.wrap(function _callee$(_context) {
                 while (1) {
@@ -173,7 +174,7 @@ var fetchProduct = exports.fetchProduct = function fetchProduct(productKey) {
         }));
 
         return function (_x, _x2, _x3) {
-            return _ref.apply(this, arguments);
+            return _ref2.apply(this, arguments);
         };
     }();
 };
@@ -386,10 +387,10 @@ var ProductPage = exports.ProductPage = function (_Component) {
         value: function componentDidMount() {
             var _props = this.props,
                 fetchProduct = _props.actions.fetchProduct,
-                params = _props.match.params;
+                productKey = _props.match.params.productKey;
 
 
-            fetchProduct(params.productKey);
+            fetchProduct({ productKey: productKey });
         }
     }, {
         key: "render",
@@ -468,10 +469,6 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _navigationBanner = __webpack_require__(13);
-
-var _navigationBanner2 = _interopRequireDefault(_navigationBanner);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -504,7 +501,7 @@ var NavigationBanner = function (_Component) {
             var toggleShowButtonIconDirection = isProductContentVisible ? ICON_COLLAPSE : ICON_EXPAND;
             return _react2.default.createElement(
                 "nav",
-                { className: _navigationBanner2.default.root },
+                { className: "nav-wrapper" },
                 _react2.default.createElement(
                     "h6",
                     null,
@@ -535,12 +532,7 @@ var NavigationBanner = function (_Component) {
 exports.default = NavigationBanner;
 
 /***/ }),
-/* 13 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
+/* 13 */,
 /* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -556,10 +548,6 @@ var _createClass = function () { function defineProperties(target, props) { for 
 var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
-
-var _classnames = __webpack_require__(15);
-
-var _classnames2 = _interopRequireDefault(_classnames);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -611,12 +599,7 @@ var ProductContent = function (_Component) {
 exports.default = ProductContent;
 
 /***/ }),
-/* 15 */
-/***/ (function(module, exports) {
-
-module.exports = require("classnames");
-
-/***/ }),
+/* 15 */,
 /* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -851,26 +834,26 @@ var loadStore = exports.loadStore = function loadStore(routes, httpContext, stor
         res = httpContext.res;
 
 
-    var promises = (0, _reactRouterConfig.matchRoutes)(routes, req.path).reduce(function (dispatchPromises, _ref) {
-        var route = _ref.route;
+    var prefetchingRequests = (0, _reactRouterConfig.matchRoutes)(routes, req.path).reduce(function (dispatchPromises, _ref) {
+        var route = _ref.route,
+            match = _ref.match;
 
 
-        var latestdispatchPromise = loadComponentData(route, req.url, store);
+        var latestdispatchPromise = loadComponentData(route, req.url, store, match.params ? match.params : null);
 
         return [].concat(_toConsumableArray(dispatchPromises), _toConsumableArray(latestdispatchPromise));
     }, []);
 
-    return Promise.all(promises);
+    return Promise.all(prefetchingRequests);
 };
 
-var loadComponentData = function loadComponentData(route, requestUrl, store) {
+var loadComponentData = function loadComponentData(route, requestUrl, store, routeParams) {
     var component = route.component;
 
 
     if (component && component.needs && component.needs.length > 0) {
-        var params = route.numberOfParamsInUrl && route.numberOfParamsInUrl > 0 ? (0, _urlHelpers.extractUrlParamsBasedOnRoute)(requestUrl, route) : undefined;
         return component.needs.map(function (need) {
-            return store.dispatch(need(params));
+            return store.dispatch(need(routeParams));
         });
     }
     return [];
